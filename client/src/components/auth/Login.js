@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import AuthContext from '../../context/Auth/authContext';
 
-const Login = () => {
+const Login = (props) => {
+  const authContext = useContext(AuthContext);
+
+  const { login, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+  });
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -9,7 +19,10 @@ const Login = () => {
   const { email, password } = user;
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Login confirm');
+    login({
+      email,
+      password,
+    });
   };
 
   return (

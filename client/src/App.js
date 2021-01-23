@@ -7,10 +7,15 @@ import ContactState from './context/Contact/ContactState';
 import AuthState from './context/Auth/AuthState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 import './App.css';
 
 function App() {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
   return (
     <AuthState>
       <ContactState>
@@ -19,7 +24,7 @@ function App() {
             <Navbar />
             <div className='container'>
               <Switch>
-                <Route exact path='/' component={Home} />
+                <PrivateRoute exact path='/' component={Home} />
                 <Route exact path='/about' component={About} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />

@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import AuthContext from '../../context/Auth/authContext';
 
-const Register = () => {
+const Register = (props) => {
+  const authContext = useContext(AuthContext);
+
+  const { register, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+  }, [props.history, isAuthenticated]);
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -14,7 +24,11 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Register confirm');
+    register({
+      name,
+      email,
+      password,
+    });
   };
   return (
     <div className='form-container'>
